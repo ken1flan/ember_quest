@@ -44,6 +44,7 @@ class EmberQuestGame extends FlameGame {
           ));
           break;
         case Star:
+          add(Star(gridPosition: block.gridPosition, xOffset: xPositionOffset));
           break;
         case WaterEnemy:
           break;
