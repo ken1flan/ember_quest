@@ -19,6 +19,7 @@ class EmberQuestGame extends FlameGame {
     await images.loadAll([
       'block.png',
       'ember.png',
+      'ground.png',
       'heart_half.png',
       'heart.png',
       'star.png',
@@ -36,6 +37,10 @@ class EmberQuestGame extends FlameGame {
     for (final block in segments[segmentIndex]) {
       switch (block.blockType) {
         case GroundBlock:
+          add(GroundBlock(
+            gridPosition: block.gridPosition,
+            xOffset: xPositionOffset,
+          ));
           break;
         case PlatformBlock:
           add(PlatformBlock(
@@ -44,7 +49,10 @@ class EmberQuestGame extends FlameGame {
           ));
           break;
         case Star:
-          add(Star(gridPosition: block.gridPosition, xOffset: xPositionOffset));
+          add(Star(
+            gridPosition: block.gridPosition,
+            xOffset: xPositionOffset,
+          ));
           break;
         case WaterEnemy:
           add(WaterEnemy(
