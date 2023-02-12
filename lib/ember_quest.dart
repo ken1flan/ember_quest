@@ -13,6 +13,8 @@ class EmberQuestGame extends FlameGame {
 
   late EmberPlayer _ember;
   double objectSpeed = 0.0;
+  late double lastBlockXPosition = 0.0;
+  late UniqueKey lastBlockKey;
 
   @override
   Future<void> onLoad() async {
