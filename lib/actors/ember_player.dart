@@ -1,10 +1,13 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:ember_quest/actors/water_enemy.dart';
 import 'package:ember_quest/objects/platform_block.dart';
 import 'package:ember_quest/objects/ground_block.dart';
+import 'package:ember_quest/objects/star.dart';
 import 'package:ember_quest/ember_quest.dart';
 
 class EmberPlayer extends SpriteAnimationComponent
@@ -19,6 +22,7 @@ class EmberPlayer extends SpriteAnimationComponent
   final double terminalVelocity = 150;
 
   bool hasJumped = false;
+  bool hitByEnemy = false;
 
   EmberPlayer({
     required super.position,
@@ -71,6 +75,15 @@ class EmberPlayer extends SpriteAnimationComponent
         position += collisionNormal.scaled(separationDistance);
       }
     }
+
+    if (other is Star) {
+      other.removeFromParent();
+    }
+
+    if (other is WaterEnemy) {
+      hit();
+    }
+
     super.onCollision(intersectionPoints, other);
   }
 
@@ -99,5 +112,22 @@ class EmberPlayer extends SpriteAnimationComponent
     position += velocity * dt;
 
     super.update(dt);
+  }
+
+  void hit() {
+    if (!hitByEnemy) {
+      hitByEnemy = true;
+    }
+    add(
+      OpacityEffect.fadeOut(
+        EffectController(
+          alternate: true,
+          duration: 0.1,
+          repeatCount: 6,
+        ),
+      )..onComplete = () {
+          hitByEnemy = false;
+        },
+    );
   }
 }
