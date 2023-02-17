@@ -107,8 +107,18 @@ class EmberPlayer extends SpriteAnimationComponent
       hasJumped = false;
     }
 
-    velocity.y = velocity.y.clamp(-jumpSpeed, terminalVelocity);
+    game.objectSpeed = 0;
+    // 後ろへのスクロール禁止
+    if (position.x - 36 <= 0 && horizontalDirection < 0) {
+      velocity.x = 0;
+    }
+    // 半分くらいの位置で右に進んでいたらスクロール
+    if (position.x + 64 >= game.size.x / 2 && horizontalDirection > 0) {
+      velocity.x = 0;
+      game.objectSpeed = -moveSpeed;
+    }
 
+    velocity.y = velocity.y.clamp(-jumpSpeed, terminalVelocity);
     position += velocity * dt;
 
     super.update(dt);
