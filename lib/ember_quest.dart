@@ -2,6 +2,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
+import 'package:ember_quest/overlays/hud.dart';
 import 'package:ember_quest/managers/segment_manager.dart';
 import 'package:ember_quest/actors/ember_player.dart';
 import 'package:ember_quest/actors/water_enemy.dart';
@@ -17,6 +18,8 @@ class EmberQuestGame extends FlameGame
   double objectSpeed = 0.0;
   late double lastBlockXPosition = 0.0;
   late UniqueKey lastBlockKey;
+  int starsCollected = 0;
+  int health = 3;
 
   @override
   Future<void> onLoad() async {
@@ -75,6 +78,8 @@ class EmberQuestGame extends FlameGame
     for (var i = 0; i <= segmentsToLoad; i++) {
       loadGameSegments(i, (640 * i).toDouble());
     }
+
+    add(Hud());
 
     _ember = EmberPlayer(
       position: Vector2(128, canvasSize.y - 128),
