@@ -41,13 +41,13 @@ class WaterEnemy extends SpriteAnimationComponent
         ),
       ),
     );
+  }
 
-    @override
-    void update(double dt) {
-      velocity.x = game.objectSpeed;
-      position += velocity * dt;
-      if (position.x < -size.x) removeFromParent();
-      super.update(dt);
-    }
+  @override
+  void update(double dt) {
+    velocity.x = game.objectSpeed;
+    position += velocity * dt;
+    if (position.x < -size.x) removeFromParent();
+    super.update(dt);
   }
 }
