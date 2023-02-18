@@ -91,22 +91,6 @@ class EmberPlayer extends SpriteAnimationComponent
   void update(double dt) {
     velocity.x = horizontalDirection * moveSpeed;
 
-    if (horizontalDirection < 0 && scale.x > 0) {
-      flipHorizontally();
-    } else if (horizontalDirection > 0 && scale.x < 0) {
-      flipHorizontally();
-    }
-
-    velocity.y += gravity;
-
-    if (hasJumped) {
-      if (isOnGround) {
-        velocity.y = -jumpSpeed;
-        isOnGround = false;
-      }
-      hasJumped = false;
-    }
-
     game.objectSpeed = 0;
     // 後ろへのスクロール禁止
     if (position.x - 36 <= 0 && horizontalDirection < 0) {
@@ -118,8 +102,30 @@ class EmberPlayer extends SpriteAnimationComponent
       game.objectSpeed = -moveSpeed;
     }
 
+    // 重力
+    velocity.y += gravity;
+
+    // ジャンプ
+    if (hasJumped) {
+      if (isOnGround) {
+        velocity.y = -jumpSpeed;
+        isOnGround = false;
+      }
+      hasJumped = false;
+    }
+
+    // 落ちるスピードが速すぎないように最高速を制限
     velocity.y = velocity.y.clamp(-jumpSpeed, terminalVelocity);
+
+    // Y軸の表示位置
     position += velocity * dt;
+
+    // 表示の向き
+    if (horizontalDirection < 0 && scale.x > 0) {
+      flipHorizontally();
+    } else if (horizontalDirection > 0 && scale.x < 0) {
+      flipHorizontally();
+    }
 
     super.update(dt);
   }
