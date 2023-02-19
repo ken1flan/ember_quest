@@ -32,7 +32,7 @@ class EmberQuestGame extends FlameGame
       'star.png',
       'water_enemy.png'
     ]);
-    initializeGame();
+    initializeGame(true);
   }
 
   @override
@@ -71,7 +71,7 @@ class EmberQuestGame extends FlameGame
     }
   }
 
-  void initializeGame() {
+  void initializeGame(bool loadHud) {
     final segmentsToLoad = (size.x / 640).ceil();
     segmentsToLoad.clamp(0, segments.length);
 
@@ -79,11 +79,19 @@ class EmberQuestGame extends FlameGame
       loadGameSegments(i, (640 * i).toDouble());
     }
 
-    add(Hud());
-
     _ember = EmberPlayer(
       position: Vector2(128, canvasSize.y - 128),
     );
     add(_ember);
+
+    if (loadHud) {
+      add(Hud());
+    }
+  }
+
+  void reset() {
+    starsCollected = 0;
+    health = 3;
+    initializeGame(false);
   }
 }
