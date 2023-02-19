@@ -94,4 +94,12 @@ class EmberQuestGame extends FlameGame
     health = 3;
     initializeGame(false);
   }
+
+  @override
+  void update(double dt) {
+    if (health <= 0) {
+      overlays.add('GameOver');
+    }
+    super.update(dt);
+  }
 }
